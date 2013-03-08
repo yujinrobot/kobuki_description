@@ -5,11 +5,23 @@
        xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
        xmlns:xacro="http://ros.org/wiki/xacro"
        name="kobuki_gazebo">
+       
+<xacro:macro name="kobuki_bumpers">
+  <gazebo reference="base_link">
+    <sensor:contact name="bumpers">
+      <geom>base_footprint_geom_base_link</geom>
+      <topic>bumpers</topic>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50</updateRate>
+    </sensor:contact>
+  </gazebo>
+</xacro:macro>
 
 <xacro:macro name="kobuki_cliff_sensors">
   <gazebo reference="cliff_sensor_left_link">
     <sensor:ray name="cliff_sensor_left">
-      <alwaysActive>true</alwaysActive>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50</updateRate>
       <rayCount>50</rayCount>
       <rangeCount>1</rangeCount>
       <resRange>1.0</resRange>
@@ -23,12 +35,13 @@
 
   <gazebo reference="cliff_sensor_right_link">
     <sensor:ray name="cliff_sensor_right">
-      <alwaysActive>true</alwaysActive>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50</updateRate>
       <rayCount>50</rayCount>
       <rangeCount>1</rangeCount>
       <resRange>1.0</resRange>
-      <minAngle>-0.04361</minAngle>
-      <maxAngle>0.04361</maxAngle>
+      <minAngle>-2.5</minAngle>
+      <maxAngle>2.5</maxAngle>
       <minRange>0.01</minRange>
       <maxRange>0.15</maxRange>
       <displayRays>true</displayRays>
@@ -37,12 +50,13 @@
 
   <gazebo reference="cliff_sensor_front_link">
     <sensor:ray name="cliff_sensor_front">
-      <alwaysActive>true</alwaysActive>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50</updateRate>
       <rayCount>50</rayCount>
       <rangeCount>1</rangeCount>
       <resRange>1.0</resRange>
-      <minAngle>-0.04361</minAngle>
-      <maxAngle>0.04361</maxAngle>
+      <minAngle>-2.5</minAngle>
+      <maxAngle>2.5</maxAngle>
       <minRange>0.01</minRange>
       <maxRange>0.15</maxRange>
       <displayRays>true</displayRays>
@@ -63,6 +77,7 @@
       <cliff_sensor_front_name>cliff_sensor_front</cliff_sensor_front_name>
       <cliff_sensor_right_name>cliff_sensor_right</cliff_sensor_right_name>
       <cliff_detection_threshold>0.04</cliff_detection_threshold>
+      <bumper_name>bumpers</bumper_name>
       <base_collision_model_link>base_link</base_collision_model_link>
     </controller:gazebo_ros_kobuki>
   </gazebo>
@@ -100,7 +115,7 @@
   <gazebo>
     <controller:gazebo_ros_imu name="imu_controller" plugin="libgazebo_ros_imu.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>30</updateRate>
+      <updateRate>50</updateRate>
       <bodyName>gyro_link</bodyName>
       <topicName>/mobile_base/sensors/imu_data</topicName>
       <gaussianNoise>${0.0017*0.0017}</gaussianNoise>
